@@ -1,9 +1,9 @@
-FROM centos/postgresql
+FROM centos:centos7
 
 MAINTAINER Vadim Rutkovsky, https://github.com/vrutkovs
 #inspired by http://manageiq.org/community/install-from-source/
 
-RUN yum -y install git sudo tar postgresql-devel memcached
+RUN yum -y install git sudo tar postgresql-devel memcached postgresql-server postgresql postgresql-contrib
 
 # 1. SCL
 #RUN yum -y install postgresql-devel memcached gcc-c++  libxml2-devel libxslt libxslt-devel
@@ -17,9 +17,7 @@ RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
 RUN curl -sSL https://get.rvm.io | rvm_tar_command=tar bash -s stable
 RUN source /etc/profile.d/rvm.sh
 RUN echo "gem: --no-ri --no-rdoc --no-document" > ~/.gemrc
-RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "rvm install ruby 2.2"
-RUN /bin/bash -l -c "rvm use 2.2 --default"
+RUN /bin/bash -l -c "rvm requirements && rvm install ruby 2.2 && rvm use 2.2 --default"
 RUN /bin/bash -l -c "gem install bundler rake"
 
 
